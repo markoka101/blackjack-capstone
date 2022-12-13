@@ -203,6 +203,7 @@ dealBtn.addEventListener('click', e => {
         dealBtn.disabled = true;
         hitBtn.disabled = false;
         stayBtn.disabled = false;
+        addToPot();
         addPlayerInfo();
         getPlayerHand();
         getDealerHand();
@@ -216,7 +217,10 @@ hitBtn.addEventListener('click', e => {
     e.preventDefault();
     fetch(`http://localhost:8080/game/1/hit/${playerId}`, ({
         method: "PUT",
-        mode: "cors"
+        mode: "cors",
+        heades: {
+            "Content-Type": "application/json"
+        }
     }))
     .then(() => {
         getPlayerHand();
@@ -235,7 +239,10 @@ stayBtn.addEventListener('click', (e) => {
     e.preventDefault();
     fetch(`http://localhost:8080/player/${playerId}/stay`, ({
         method: "PUT",
-        mode: "cors"
+        mode: "cors",
+        headers: {
+            "Content-Type": "application/json"
+        }
     }))
     .then(() => {
         stayBtn.disabled = true;
@@ -332,6 +339,20 @@ const playerJoin = () => {
                     console.log(playerId);
                 })
                 .catch(err => console.log(err));
+}
+
+
+//put bets into the game pot
+const addToPot = () => {
+    fetch(`http://localhost:8080/game/1/addbets`, ({
+        method: "PUT",
+        mode: "cors",
+        headers: {
+            "Content-Type": "application/json"
+        }
+    }))
+    .then()
+    .catch(err => console.log(err));
 }
 
 //used for get requests

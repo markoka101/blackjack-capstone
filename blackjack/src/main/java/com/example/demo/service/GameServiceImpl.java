@@ -237,13 +237,14 @@ public class GameServiceImpl implements GameService{
         //most basic winning condition
         for (Player player : playerSet) {
             if (player.getHandValue() > highestHand && player.getHandValue() < 22) {
+                highestHand = player.getHandValue();
                 if (!highestPlayer.isEmpty()) {
                     highestPlayer.remove(0);
                 }
                 highestPlayer.add(player);
             }
         }
-
+        
         //when dealer wins set pot to zero
         //if tie with players they get what they bet back
         //if player wins give pot
@@ -264,7 +265,7 @@ public class GameServiceImpl implements GameService{
             result = "tie";
         }
         else {
-            int winnings = (game.getPot() * 2)/highestPlayer.size();
+            int winnings = (game.getPot() * 2);
             while(!highestPlayer.isEmpty()) {
                 Player player = highestPlayer.remove(0);
                 playerService.creditsBack(player, winnings);
