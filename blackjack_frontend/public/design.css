@@ -1,0 +1,89 @@
+body {
+    background-color: rgb(48, 157, 48);
+    min-height:100%;
+    height:70vh;
+}
+
+.title {
+    color:rgb(226, 70, 70);
+    max-width:40%;
+    background-color: rgb(199, 242, 199);
+    border-style: solid;
+    border-color: black;
+    margin-bottom:0%;
+}
+
+.user-info {
+    background-color: rgb(199, 242, 199);
+    border-style:solid;
+    max-width: 40%;
+}
+
+.h1 {
+    font-size: 100%;
+}
+
+
+.player {
+    height:25%;
+    width: 25%;
+    position:relative;
+    padding-bottom:5%;
+}
+
+.player img {
+    height:100%;
+    width:30%;
+    padding-right:0%;
+    padding-left:0%;
+    object-fit:contain;
+    
+}
+
+.dealer {
+    height:28%;
+    width: 25%;
+    left:75%;
+    position:relative;
+}
+
+.dealer img {
+    height:100%;
+    width:25%;
+    padding-right:1%;
+    object-fit:contain;
+}
+
+.game-buttons {
+    float:left;
+    border:1px solid white;
+    position: fixed;
+
+}
+
+.game-information{
+    height:20%;
+    width: 30%;
+    left:28%;
+    right:50%;
+    background-color: rgb(199, 242, 199);
+    border-style:solid;
+    position: relative; 
+}
+
+.game-buttons button {
+    background-color: blanchedalmond;
+    margin-left:0px;
+    margin-right:0px;
+    float: left;
+    
+}
+
+.game-buttons button:hover {
+    background-color: rgb(218, 211, 211);
+}
+
+.game-buttons button:disabled{
+    opacity: 0.3;
+}
+

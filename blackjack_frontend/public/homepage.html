@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="eng">
+<head>
+    <title>Diet Blackjack</title>
+    <link rel="stylesheet" href="/styles">
+</head>
+
+<body>
+
+    <h1 class="title" id="title">Diet Blackjack</h1>
+    
+    <div class="user-info">
+
+        <form id="login-user">
+            <h1>Returning users</h1>
+            <input type="text" id="login" placeholder="username"></input>
+            <input type="password" id="login" placeholder="password"></input>
+            <br>
+            <button type="submit" id="login">login</button>
+        </form>
+
+        <br>
+
+        <form id="register-user">
+            <h1>New users</h1>
+            <input type="text" id="reg" placeholder="username"></input>
+            <input type="password" id="reg" placeholder="password"></input>
+            <input type="email" id="reg" placeholder="email"></input>
+            <input type="number" step="1" id="reg" placeholder="credits"></input>
+            <br>
+            <button type="submit" id="reg">register</button>
+        </form>
+
+        <br>
+        <div>
+            <button id="play-game">play game</button>
+        </div>
+    </div>
+
+    
+    <div class="game-buttons">
+        <button disabled id="deal">deal</button>
+        <button disabled id="hit">hit</button>
+        <button disabled id="stay">stay</button>
+        <input type="number" id="bet-amt" placeholder="credits"></input>
+        <button disabled id="bet">bet</button>
+    </div>
+
+    <div class="dealer">
+        <h3>DEALER</h3>
+        <div id="dealer-hand">
+        </div>
+    </div>
+
+    <div class="game-information">
+        <div id="player-info">
+        </div>
+    </div>
+
+    <div class="player">
+        <h3>YOU</h3>
+        <div id="player-hand">
+            
+        </div>
+    </div>
+
+    <script src="/js"></script>
+</body>
+
+
+</html>
