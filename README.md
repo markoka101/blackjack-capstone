@@ -12,8 +12,6 @@ on the result.
 
 ## Technology used
 
-## Technology used
-
 Backend: Java, spring-boot, and jpa.
 
 Client side: Node.js, HTML, CSS, Javascript, Express, cors
