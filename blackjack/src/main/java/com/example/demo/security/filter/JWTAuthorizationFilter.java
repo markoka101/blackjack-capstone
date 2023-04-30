@@ -15,25 +15,28 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Arrays;
 
-public class JWTAuthorizationFilter extends OncePerRequestFilter {
+public class JWTAuthorizationFilter { //extends OncePerRequestFilter {
 
-    @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        String header = request.getHeader("Authorization");
-
-        if (header == null || !header.startsWith(SecurityConstants.BEARER)) {
-            filterChain.doFilter(request, response);
-            return;
-        }
-
-        String token = header.replace(SecurityConstants.BEARER, "");
-        String user = JWT.require(Algorithm.HMAC512(SecurityConstants.SECRET_KEY))
-                .build()
-                .verify(token)
-                .getSubject();
-
-        Authentication authentication = new UsernamePasswordAuthenticationToken(user, null, Arrays.asList());
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-        filterChain.doFilter(request, response);
-    }
+//    @Override
+//    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+//        String header = request.getHeader("Authorization");
+//
+//        if (header == null || !header.startsWith(SecurityConstants.BEARER)) {
+//            filterChain.doFilter(request, response);
+//            return;
+//        }
+//
+//        String token = header.replace(SecurityConstants.BEARER, "");
+//
+//        //test
+//        System.out.println(token);
+//        String user = JWT.require(Algorithm.HMAC512(SecurityConstants.SECRET_KEY))
+//                .build()
+//                .verify(token)
+//                .getSubject();
+//
+//        Authentication authentication = new UsernamePasswordAuthenticationToken(user, null, Arrays.asList());
+//        SecurityContextHolder.getContext().setAuthentication(authentication);
+//        filterChain.doFilter(request, response);
+//    }
 }

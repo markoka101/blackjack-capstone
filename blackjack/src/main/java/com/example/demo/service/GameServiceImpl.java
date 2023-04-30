@@ -244,7 +244,7 @@ public class GameServiceImpl implements GameService{
                 highestPlayer.add(player);
             }
         }
-        
+
         //when dealer wins set pot to zero
         //if tie with players they get what they bet back
         //if player wins give pot
