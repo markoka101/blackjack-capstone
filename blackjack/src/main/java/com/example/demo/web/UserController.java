@@ -76,10 +76,10 @@ public class UserController {
 
             User user = userService.getUser((String)authentication.getPrincipal(), "username");
 
+            //generate token and send back
             String accessToken = jwtTokenUtil.generateAccessToken(user);
             AuthResponse response = new AuthResponse(user.getUsername(), accessToken);
 
-            //
             return ResponseEntity.ok().body(response);
         } catch (BadCredentialsException ex) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();

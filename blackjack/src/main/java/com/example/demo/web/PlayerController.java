@@ -7,6 +7,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.security.RolesAllowed;
+
 @AllArgsConstructor
 @RestController
 @CrossOrigin
@@ -16,11 +18,13 @@ public class PlayerController {
     PlayerService playerService;
 
     @PutMapping("/{playerid}/bet/{amount}")
+    @RolesAllowed({"ROLE_USER", "ROLE_ADMIN"})
     public ResponseEntity<Player> bet(@PathVariable Long playerid, @PathVariable Integer amount) {
         return new ResponseEntity<>(playerService.bet(playerid, amount), HttpStatus.OK);
     }
 
     @GetMapping("/findbyuser/{userid}")
+    @RolesAllowed("ROLE_ADMIN")
     public Long findByUserId(@PathVariable Long userid) {
         if (playerService.findByUserId(userid) != null) {
             return playerService.findByUserId(userid).getId();
@@ -29,11 +33,13 @@ public class PlayerController {
     }
 
     @GetMapping("/getplayer/{playerid}")
+    @RolesAllowed("ROLE_ADMIN")
     public Player getPlayer(@PathVariable Long playerid) {
         return playerService.findById(playerid);
     }
 
     @PutMapping("/{playerid}/stay")
+    @RolesAllowed({"ROLE_USER", "ROLE_ADMIN"})
     public ResponseEntity<Player> bet(@PathVariable Long playerid) {
         return new ResponseEntity<>(playerService.stay(playerid), HttpStatus.OK);
     }
