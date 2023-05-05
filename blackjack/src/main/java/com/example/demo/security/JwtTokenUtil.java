@@ -1,18 +1,11 @@
 package com.example.demo.security;
 
-import com.auth0.jwt.JWT;
-import com.auth0.jwt.JWTCreator;
-import com.auth0.jwt.algorithms.Algorithm;
+
 import com.example.demo.entity.User;
 import io.jsonwebtoken.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
-
 import java.util.Date;
 
 
@@ -21,9 +14,11 @@ public class JwtTokenUtil {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(JwtTokenUtil.class);
     public String generateAccessToken (User user) {
+
         return Jwts.builder()
                 .setSubject(String.format("%s,%s", user.getId(), user.getUsername()))
-                .setIssuer("CodeJava")
+                .setIssuer("MarkOka")
+                .claim("roles", user.getRoles().toString())
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + SecurityConstants.TOKEN_EXPIRATION))
                 .signWith(SignatureAlgorithm.HS512, SecurityConstants.SECRET_KEY)
@@ -45,19 +40,17 @@ public class JwtTokenUtil {
         } catch (SignatureException ex) {
             LOGGER.error("Signature validation failed");
         }
-
         return false;
-    }
-
-    private Claims parseClaims(String token) {
-        return Jwts.parser()
-                .setSigningKey(SecurityConstants.SECRET_KEY)
-                .parseClaimsJws(token)
-                .getBody();
     }
 
     public String getSubject(String token) {
         return parseClaims(token).getSubject();
     }
 
+    public Claims parseClaims(String token) {
+        return Jwts.parser()
+                .setSigningKey(SecurityConstants.SECRET_KEY)
+                .parseClaimsJws(token)
+                .getBody();
+    }
 }

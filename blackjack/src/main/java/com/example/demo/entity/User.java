@@ -2,19 +2,20 @@ package com.example.demo.entity;
 
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
-import java.util.Collection;
+import java.util.*;
 
-@Entity
-@Table(name = "USERS")
 
 @Getter
 @Setter
 @NoArgsConstructor
 @RequiredArgsConstructor
+@Entity
+@Table(name = "USERS")
 public class User implements UserDetails {
 
     @Id
@@ -37,11 +38,44 @@ public class User implements UserDetails {
     @Column()
     private Integer credits;
 
-    //user details for jwt token
+    //user roles
+    @ManyToMany
+    @JoinTable(
+            name = "users_roles",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id")
+    )
+    private Set<Role> roles = new HashSet<>();
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        List<SimpleGrantedAuthority> authorities = new ArrayList<>();
+
+        for (Role role : roles) {
+            authorities.add(new SimpleGrantedAuthority(role.getName()));
+        }
+
+        return authorities;
     }
+
+    /*
+    //change location of functions after testing
+
+     */
+    public Set<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
+    }
+
+    public void addRole(Role role) {
+        this.roles.add(role);
+    }
+
+    //change location of top functions
+
     @Override
     public boolean isAccountNonExpired() {
         return true;

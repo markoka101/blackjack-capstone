@@ -1,10 +1,8 @@
 package com.example.demo.security.manager;
 
 import com.example.demo.entity.User;
-import com.example.demo.service.UserService;
 import com.example.demo.service.UserServiceImp;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

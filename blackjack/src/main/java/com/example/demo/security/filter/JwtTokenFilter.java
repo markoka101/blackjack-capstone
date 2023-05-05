@@ -1,8 +1,11 @@
 package com.example.demo.security.filter;
 
+import com.example.demo.entity.Role;
 import com.example.demo.entity.User;
 import com.example.demo.security.JwtTokenUtil;
 import com.example.demo.security.SecurityConstants;
+import io.jsonwebtoken.Claims;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -16,10 +19,12 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Set;
 
 @Component
 public class JwtTokenFilter extends OncePerRequestFilter {
 
+    @Autowired
     JwtTokenUtil jwtTokenUtil;
 
     @Override
@@ -57,19 +62,31 @@ public class JwtTokenFilter extends OncePerRequestFilter {
     private void setAuthContext(String token, HttpServletRequest request) {
         UserDetails userDetails = getUserDetails(token);
 
-        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(userDetails, null, null);
+        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
 
         authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 
         SecurityContextHolder.getContext().setAuthentication(authenticationToken);
     }
 
+    //extract the user info from the token
     private UserDetails getUserDetails(String token) {
         User userDetails = new User();
+        Claims claims = jwtTokenUtil.parseClaims(token);
+        String roles = (String) claims.get("roles");
+
+
+        roles = roles.replace("[", "").replace("]", "");
+        String[] rolesNames = roles.split(",");
+
+        for (String aRoleName : rolesNames) {
+            userDetails.addRole(new Role(aRoleName));
+        }
+
         String[] jwtSubject = jwtTokenUtil.getSubject(token).split(",");
 
-        userDetails.setId((long) Integer.parseInt(jwtSubject[0]));
-        userDetails.setEmail(jwtSubject[1]);
+        userDetails.setId(Long.parseLong(jwtSubject[0]));
+        userDetails.setUsername(jwtSubject[1]);
 
         return userDetails;
     }

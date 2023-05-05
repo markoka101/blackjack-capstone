@@ -9,4 +9,5 @@ public interface UserService {
     User loginUser(User user);
     Integer getCredits(User user);
     Integer setCredits(User user, Integer credits);
+
 }

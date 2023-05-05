@@ -1,5 +1,6 @@
 package com.example.demo.service;
 
+import com.example.demo.entity.Role;
 import com.example.demo.entity.User;
 import com.example.demo.repository.UserRepository;
 import lombok.AllArgsConstructor;
@@ -36,6 +37,7 @@ public class UserServiceImp implements UserService {
     @Override
     public User saveUser(User user) {
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+        user.addRole(new Role(2L));  //set as user by default
         return userRepository.save(user);
     }
 
@@ -43,7 +45,6 @@ public class UserServiceImp implements UserService {
     public User loginUser(User user) {
         User savedUser = (getUser(user.getUsername(), "username"));
         if (bCryptPasswordEncoder.matches(user.getPassword(), savedUser.getPassword())) {
-            System.out.println("login successful");
             return user;
         }
         return null;
@@ -64,7 +65,7 @@ public class UserServiceImp implements UserService {
         if  (entity.isPresent()) {
             return entity.get();
         }
-        return null;//get rid of when make exception
+        return null;
         //else throw new EntityNotFoundException(id, User.class);*/
     }
 }
