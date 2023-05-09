@@ -14,7 +14,9 @@ import java.util.Set;
 
 @AllArgsConstructor
 @RestController
-@CrossOrigin
+@CrossOrigin(
+        origins = "http://localhost:4080", methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE}
+)
 @RequestMapping("/game")
 public class GameController {
 

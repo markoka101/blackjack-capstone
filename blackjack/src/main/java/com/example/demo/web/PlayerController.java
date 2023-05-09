@@ -11,7 +11,9 @@ import javax.annotation.security.RolesAllowed;
 
 @AllArgsConstructor
 @RestController
-@CrossOrigin
+@CrossOrigin(
+        origins = "http://localhost:4080", methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE}
+)
 @RequestMapping("/player")
 public class PlayerController {
 

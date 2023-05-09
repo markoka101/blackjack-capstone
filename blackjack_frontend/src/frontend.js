@@ -8,6 +8,9 @@ let userId;
 //hold player id
 let playerId;
 
+//hold token
+let token;
+
 //check if signed in
 let signedIn = false;
 
@@ -19,6 +22,9 @@ const dealBtn = document.getElementById('deal');
 const betBtn = document.getElementById('bet');
 const hitBtn = document.getElementById('hit');
 const stayBtn = document.getElementById('stay');
+
+//test buttton
+const testBtn = document.getElementById('test');
 
 //end of game
 let end = false;
@@ -38,6 +44,24 @@ const displayPlayerInfo = document.getElementById('player-info');
 
 const infoBox = document.getElementsByClassName('game-information');
 
+
+//test
+testBtn.addEventListener('click', (e) => {
+    e.preventDefault();
+    fetch('http://localhost:8080/user/1/credits', ({
+        method: "GET",
+        mode: "cors",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}`
+        }
+    }))
+    .then(res => {
+        console.log(res.json());
+    })
+    .then(data => console.log(data))
+    .catch(err => console.log(err))
+});
 
 /*
 user login and register
@@ -61,13 +85,12 @@ loginForm.addEventListener('submit', (e) => {
         },
         body: JSON.stringify(userObj)
     }))
-    .then((res) => {
-        if (res.status === 202){
-            userId = httpGet(`http://localhost:8080/user/findbyname/${userObj.username}`);
-            signedIn = true;
-            loginForm.remove();
-            registerForm.remove();
-        }
+    .then(res => res.json())
+    .then(data => {
+        token = data.accessToken;
+        signedIn = true;
+        loginForm.remove();
+        registerForm.remove();
     })
     .catch(err => console.log(err));
 });
@@ -133,7 +156,8 @@ playGameBut.addEventListener('click', e => {
             method: "POST",
             mode: "cors",
             headers: {
-                "Content-Type": "application/json"
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`
             },
             body: JSON.stringify(potObj)
         }))
@@ -148,7 +172,7 @@ playGameBut.addEventListener('click', e => {
         
     } else {
         //game currently in progress
-        console.log('game in  prog');
+        console.log('game in prog');
         if (playerInGame()) {
             console.log('user is in game');
             playerId = httpGet(`http://localhost:8080/player/findbyuser/${userId}`);

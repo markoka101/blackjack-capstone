@@ -17,6 +17,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -49,6 +52,7 @@ public class SecurityConfig {
                 .headers().frameOptions().disable()
                 .and()
                 .csrf().disable()
+                .cors().and()
                 .authorizeRequests()
                 .antMatchers("/h2/**").permitAll() //remove h2 later for security reasons
                 //Everyone can register or login

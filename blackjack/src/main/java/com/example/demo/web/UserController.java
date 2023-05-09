@@ -21,7 +21,9 @@ import javax.validation.Valid;
 
 @AllArgsConstructor
 @RestController
-@CrossOrigin
+@CrossOrigin(
+        origins = "http://localhost:4080", methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE}
+)
 @RequestMapping("/user")
 public class UserController {
 
