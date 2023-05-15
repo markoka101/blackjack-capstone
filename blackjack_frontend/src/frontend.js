@@ -8,9 +8,6 @@ let userId;
 //hold player id
 let playerId;
 
-//hold token
-let token;
-
 //check if signed in
 let signedIn = false;
 
@@ -46,14 +43,19 @@ const infoBox = document.getElementsByClassName('game-information');
 
 
 //test
+/*
+            CAN ADD FEATURES TO TEST BUTTON
+
+*/
 testBtn.addEventListener('click', (e) => {
     e.preventDefault();
+
     fetch('http://localhost:8080/user/1/credits', ({
         method: "GET",
         mode: "cors",
         headers: {
             "Content-Type": "application/json",
-            "Authorization": `Bearer ${token}`
+            "Authorization": `Bearer ${getCook('token')}`
         }
     }))
     .then(res => {
@@ -87,8 +89,9 @@ loginForm.addEventListener('submit', (e) => {
     }))
     .then(res => res.json())
     .then(data => {
-        token = data.accessToken;
         signedIn = true;
+        setCook('token', data.accessToken);
+
         loginForm.remove();
         registerForm.remove();
     })
@@ -123,7 +126,6 @@ registerForm.addEventListener('submit', (e) => {
             userId = httpGet(`http://localhost:8080/user/findbyname/${userObj.username}`);
             signedIn = true;
             loginForm.remove();
-            registerForm.remove();
         }
     })
     .catch(err => console.log(err))
@@ -157,7 +159,7 @@ playGameBut.addEventListener('click', e => {
             mode: "cors",
             headers: {
                 "Content-Type": "application/json",
-                "Authorization": `Bearer ${token}`
+                "Authorization": `Bearer ${getCook('token')}`
             },
             body: JSON.stringify(potObj)
         }))
@@ -202,6 +204,10 @@ betBtn.addEventListener('click', e => {
      fetch(`http://localhost:8080/player/${playerId}/bet/${betAmt}`, ({
         method: "PUT",
         mode: "cors",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${getCook('token')}`
+        }
      }))
      .then((res) => {
         if (res.status === 200) {
@@ -221,7 +227,11 @@ dealBtn.addEventListener('click', e => {
     e.preventDefault();
     fetch(`http://localhost:8080/game/1/deal`, ({
         method: "PUT",
-        mode: "cors"
+        mode: "cors",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${getCook('token')}`
+        }
     }))
     .then(() => {
         dealBtn.disabled = true;
@@ -242,8 +252,9 @@ hitBtn.addEventListener('click', e => {
     fetch(`http://localhost:8080/game/1/hit/${playerId}`, ({
         method: "PUT",
         mode: "cors",
-        heades: {
-            "Content-Type": "application/json"
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${getCook('token')}`
         }
     }))
     .then(() => {
@@ -265,7 +276,8 @@ stayBtn.addEventListener('click', (e) => {
         method: "PUT",
         mode: "cors",
         headers: {
-            "Content-Type": "application/json"
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${getCook('token')}`
         }
     }))
     .then(() => {
@@ -299,7 +311,11 @@ const endTheHand = () => {
 const hitToDealer = () => {
     fetch(`http://localhost:8080/game/1/dealerhit`, ({
         method: "PUT",
-        mode: "cors"
+        mode: "cors",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${getCook('token')}`
+        }
     }))
     .then(() => {
         getDealerHand();
@@ -355,7 +371,8 @@ const playerJoin = () => {
                     method: "POST",
                     mode: "cors",
                     headers: {
-                        "Content-Type": "application/json"
+                        "Content-Type": "application/json",
+                        "Authorization": `Bearer ${getCook('token')}`
                     }
                 }))
                 .then(() => {
@@ -372,7 +389,8 @@ const addToPot = () => {
         method: "PUT",
         mode: "cors",
         headers: {
-            "Content-Type": "application/json"
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${getCook('token')}`
         }
     }))
     .then()
@@ -387,6 +405,26 @@ function httpGet(theUrl) {
     return xmlHttpReq.responseText;
 };
 
+//create cookie
+function setCook(name, value) {
+    document.cookie = name + "=" + value +";";
+}
 
+function getCook(cName) {
+    let name = cName + "=";
+    let ca = document.cookie.split(';');
 
+    for (const element of ca) {
+        let c = element;
+        while (c.charAt(0) == ' ') {
+            c = c.substring(1);
+        }
+
+        if (c.indexOf(name) == 0) {
+            return c.substring(name.length, c.length);
+        }
+    }
+
+    return "";
+}
 
