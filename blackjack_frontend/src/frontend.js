@@ -45,16 +45,14 @@ const infoBox = document.getElementsByClassName('game-information');
 //test
 /*
             CAN ADD FEATURES TO TEST BUTTON
-
 */
 testBtn.addEventListener('click', (e) => {
     e.preventDefault();
 
-    fetch('http://localhost:8080/user/1/credits', ({
+    fetch('http://localhost:8080/user/findbyname/1testUser', ({
         method: "GET",
         mode: "cors",
         headers: {
-            "Content-Type": "application/json",
             "Authorization": `Bearer ${getCook('token')}`
         }
     }))
@@ -125,7 +123,7 @@ registerForm.addEventListener('submit', (e) => {
         if (res.status === 201) {
             userId = httpGet(`http://localhost:8080/user/findbyname/${userObj.username}`);
             signedIn = true;
-            loginForm.remove();
+            registerForm.remove();
         }
     })
     .catch(err => console.log(err))
@@ -401,7 +399,7 @@ const addToPot = () => {
 function httpGet(theUrl) {
     let xmlHttpReq = new XMLHttpRequest();
     xmlHttpReq.open("GET", theUrl, false);
-    xmlHttpReq.send(null)
+    xmlHttpReq.setRequestHeader("Authorization", getCook('token'));
     return xmlHttpReq.responseText;
 };
 

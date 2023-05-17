@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.annotation.security.RolesAllowed;
 import javax.transaction.Transactional;
 import javax.validation.Valid;
+import java.security.Principal;
 
 @AllArgsConstructor
 @RestController
@@ -40,9 +41,12 @@ public class UserController {
 
     //find userid through username
     @GetMapping("/findbyname/{username}")
-    @RolesAllowed("ROLE_ADMIN")
+    @RolesAllowed({"ROLE_USER", "ROLE_ADMIN"})
     @ResponseBody
-    public Long findByUsername(@PathVariable String username) {
+    public Long findByUsername(@PathVariable String username, Principal p) {
+        if (!(p.getName().toString().equals(username))) {
+            return 0L;
+        }
         return userService.getUser(username, "username").getId();
     }
 
