@@ -2,8 +2,8 @@
 let loginForm = document.getElementById('login-user');
 let registerForm = document.getElementById('register-user');
 
-//hold user id
-let userId;
+//hold username
+let currUser;
 
 //hold player id
 let playerId;
@@ -48,20 +48,9 @@ const infoBox = document.getElementsByClassName('game-information');
 */
 testBtn.addEventListener('click', (e) => {
     e.preventDefault();
-
-    fetch('http://localhost:8080/user/findbyname/1testUser', ({
-        method: "GET",
-        mode: "cors",
-        headers: {
-            "Authorization": `Bearer ${getCook('token')}`
-        }
-    }))
-    .then(res => {
-        console.log(res.json());
-    })
-    .then(data => console.log(data))
-    .catch(err => console.log(err))
+    console.log(httpGet('http://localhost:8080/user/findbyname/mark'));
 });
+
 
 /*
 user login and register
@@ -87,11 +76,16 @@ loginForm.addEventListener('submit', (e) => {
     }))
     .then(res => res.json())
     .then(data => {
+        if (data.status === 200) {
         signedIn = true;
+        currUser = data.username;
         setCook('token', data.accessToken);
 
         loginForm.remove();
         registerForm.remove();
+        } else {
+            alert('username or password is incorrect');
+        }
     })
     .catch(err => console.log(err));
 });
@@ -121,8 +115,6 @@ registerForm.addEventListener('submit', (e) => {
     .then((res) => {
         //set userId variable
         if (res.status === 201) {
-            userId = httpGet(`http://localhost:8080/user/findbyname/${userObj.username}`);
-            signedIn = true;
             registerForm.remove();
         }
     })
@@ -131,7 +123,8 @@ registerForm.addEventListener('submit', (e) => {
 
 //show basic game information
 const addPlayerInfo = () => {
-    let userCred = httpGet(`http://localhost:8080/user/${userId}/credits`);
+    const userId = httpGet(`http://localhost:8080/user/findbyname/${currUser}`)
+    const userCred = httpGet(`http://localhost:8080/user/${userId}/credits`);
     displayPlayerInfo.innerHTML = '';
     player = JSON.parse(httpGet(`http://localhost:8080/player/getplayer/${playerId}`));
     displayPlayerInfo.innerHTML += `    User credits: ${userCred} <br>`;
@@ -175,6 +168,7 @@ playGameBut.addEventListener('click', e => {
         console.log('game in prog');
         if (playerInGame()) {
             console.log('user is in game');
+            const userId = httpGet(`http://localhost:8080/user/findbyname/${currUser}`);
             playerId = httpGet(`http://localhost:8080/player/findbyuser/${userId}`);
         } else {
             console.log('user will be added');
@@ -356,6 +350,7 @@ const gameInProg = () => {
 
 //check if player is in game
 const playerInGame = () => {
+    const userId = httpGet(`http://localhost:8080/user/findbyname/${currUser}`);
     if (gameInProg() && httpGet(`http://localhost:8080/player/findbyuser/${userId}`) != 0) {
         playerId = httpGet(`http://localhost:8080/player/findbyuser/${userId}`);
         return true;
@@ -365,6 +360,7 @@ const playerInGame = () => {
 
 //let user join as player in game
 const playerJoin = () => {
+    const userId = httpGet(`http://localhost:8080/user/findbyname/${currUser}`);
     fetch(`http://localhost:8080/game/1/add/${userId}`, ({
                     method: "POST",
                     mode: "cors",
@@ -399,7 +395,8 @@ const addToPot = () => {
 function httpGet(theUrl) {
     let xmlHttpReq = new XMLHttpRequest();
     xmlHttpReq.open("GET", theUrl, false);
-    xmlHttpReq.setRequestHeader("Authorization", getCook('token'));
+    xmlHttpReq.setRequestHeader("Authorization", `Bearer ${getCook('token')}`);
+    xmlHttpReq.send();
     return xmlHttpReq.responseText;
 };
 
