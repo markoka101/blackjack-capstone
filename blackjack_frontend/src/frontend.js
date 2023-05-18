@@ -41,7 +41,7 @@ const displayPlayerInfo = document.getElementById('player-info');
 
 const infoBox = document.getElementsByClassName('game-information');
 
-
+  
 //test
 /*
             CAN ADD FEATURES TO TEST BUTTON
@@ -74,20 +74,23 @@ loginForm.addEventListener('submit', (e) => {
         },
         body: JSON.stringify(userObj)
     }))
-    .then(res => res.json())
-    .then(data => {
-        if (data.status === 200) {
-        signedIn = true;
-        currUser = data.username;
-        setCook('token', data.accessToken);
-
-        loginForm.remove();
-        registerForm.remove();
-        } else {
-            alert('username or password is incorrect');
-        }
+    .then(res => {
+        res.json()
+        .then(data => {
+            if (res.status === 200) {
+                signedIn = true;
+                currUser = data.username;
+                setCook('token', data.accessToken);
+    
+                loginForm.remove();
+                registerForm.remove();
+            } else {
+                alert('username or password is incorrect');
+            }
+        })
+        .catch(() => alert('username or password is incorrect'))
     })
-    .catch(err => console.log(err));
+    .catch(err => console.log('err'));
 });
 
 //register user
