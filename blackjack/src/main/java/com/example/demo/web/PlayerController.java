@@ -26,7 +26,7 @@ public class PlayerController {
     }
 
     @GetMapping("/findbyuser/{userid}")
-    @RolesAllowed("ROLE_ADMIN")
+    @RolesAllowed({"ROLE_USER", "ROLE_ADMIN"})
     public Long findByUserId(@PathVariable Long userid) {
         if (playerService.findByUserId(userid) != null) {
             return playerService.findByUserId(userid).getId();
