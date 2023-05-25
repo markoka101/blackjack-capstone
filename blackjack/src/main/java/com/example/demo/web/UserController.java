@@ -61,12 +61,11 @@ public class UserController {
 
     //create a new user
     @PostMapping("/register")
-    public ResponseEntity<Long> createUser(@Valid @RequestBody User user) {
+    public ResponseEntity<?> createUser(@Valid @RequestBody User user) {
         userService.saveUser(user);
         Long id = user.getId();
 
-        //return id for the front end
-        return new ResponseEntity<>(id, HttpStatus.CREATED);
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     //login
