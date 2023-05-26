@@ -36,7 +36,6 @@ const displayDealerHand = document.getElementById('dealer-hand');
 
 const displayPlayer = document.getElementsByClassName('player');
 const displayPlayerHand = document.getElementById('player-hand');
-
 const displayPlayerInfo = document.getElementById('player-info');
 
 const infoBox = document.getElementsByClassName('game-information');
@@ -44,7 +43,7 @@ const infoBox = document.getElementsByClassName('game-information');
   
 //test
 /*
-            CAN ADD FEATURES TO TEST BUTTON
+            BUTTON USED FOR TESTING NEW FIXES OR FEATURES FOR NOW
 */
 testBtn.addEventListener('click', (e) => {
     e.preventDefault();
@@ -88,9 +87,9 @@ loginForm.addEventListener('submit', (e) => {
                 alert('username or password is incorrect');
             }
         })
-        .catch(() => alert('username or password is incorrect'))
+        .catch(err => console.log(err))
     })
-    .catch(err => console.log('err'));
+    .catch(err => console.log(err));
 });
 
 //register user
@@ -405,7 +404,7 @@ function httpGet(theUrl) {
 
 //create cookie
 function setCook(name, value) {
-    document.cookie = name + "=" + value +";";
+    document.cookie = name + "=" + value +"; Secure";
 }
 
 function getCook(cName) {
