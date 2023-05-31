@@ -28,6 +28,7 @@ let end = false;
 
 //visual gameplay
 let dealer;
+let dealerCardNum = 0;
 let player;
 
 //inner html
@@ -231,6 +232,9 @@ dealBtn.addEventListener('click', e => {
         dealBtn.disabled = true;
         hitBtn.disabled = false;
         stayBtn.disabled = false;
+
+        dealerCardNum = 2;
+
         addToPot();
         addPlayerInfo();
         getPlayerHand();
@@ -290,12 +294,18 @@ Game functionality
 const endTheHand = () => {
     end = true;
     betBtn.disabled = false;
+
     addPlayerInfo();
     getPlayerHand();
     getDealerHand();
 
-    const result = httpGet('http://localhost:8080/game/1/endhand');
+    dealerCardNum = 0;
+    
+    setTimeout(() => {
+        const result = httpGet('http://localhost:8080/game/1/endhand');
     alert(`Player ${result}! Dealer's hand: ${dealer.handValue}`);
+    },500);
+    
 
     end = false;
 }
@@ -319,13 +329,13 @@ const hitToDealer = () => {
 
 }
 
-//display cards in  player hand
+//display cards in player hand
 const getPlayerHand = () => {
     player = JSON.parse(httpGet(`http://localhost:8080/player/getplayer/${playerId}`));
     displayPlayerHand.innerHTML ='';
 
     player.hand.forEach(card => {
-        displayPlayerHand.innerHTML+= `<img src=${card.imageUrl} />`;
+            displayPlayerHand.innerHTML+= `<img src=${card.imageUrl} />`;
     })  
 }
 
@@ -340,10 +350,23 @@ const getDealerHand = () => {
         if (i === 0 && !end) {
             displayDealerHand.innerHTML+= `<img src="cardback.png" />`;
         } else {
+
             displayDealerHand.innerHTML+= `<img src=${dealer.dealerHand[i].imageUrl} />`;
+            // if(i > dealerCardNum - 1)  {
+            //     setTimeout(() => {
+            //     displayDealerHand.innerHTML+= `<img src=${dealer.dealerHand[i].imageUrl} />`;
+            //     }, 500);
+
+            //     console.log('if    ' + `i  value ${i}  num value ${dealerCardNum}`);
+            //     dealerCardNum = dealerCardNum + 1;
+            // } else {
+            //     console.log('else   '+ `i  value ${i}  num value ${dealerCardNum}`);
+            //     displayDealerHand.innerHTML+= `<img src=${dealer.dealerHand[i].imageUrl} />`;
+            // }
         }
     }
 }
+
 
 //check if game is in progress
 const gameInProg = () => {
