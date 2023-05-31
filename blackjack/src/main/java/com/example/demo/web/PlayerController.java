@@ -35,7 +35,7 @@ public class PlayerController {
     }
 
     @GetMapping("/getplayer/{playerid}")
-    @RolesAllowed("ROLE_ADMIN")
+    @RolesAllowed({"ROLE_USER", "ROLE_ADMIN"})
     public Player getPlayer(@PathVariable Long playerid) {
         return playerService.findById(playerid);
     }

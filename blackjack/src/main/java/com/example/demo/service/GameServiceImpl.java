@@ -311,6 +311,8 @@ public class GameServiceImpl implements GameService{
             if(card.getCardName().equals("ace")) {
                 card.setCardValue(11);
             }
+
+            game.getDeck().add(card);
         }
         game.getDealer().setHandValue(0);
 
