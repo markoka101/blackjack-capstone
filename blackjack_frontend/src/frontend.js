@@ -39,8 +39,6 @@ const displayPlayer = document.getElementsByClassName('player');
 const displayPlayerHand = document.getElementById('player-hand');
 const displayPlayerInfo = document.getElementById('player-info');
 
-const infoBox = document.getElementsByClassName('game-information');
-
   
 //test
 /*
@@ -295,7 +293,6 @@ const endTheHand = () => {
     end = true;
     betBtn.disabled = false;
 
-    addPlayerInfo();
     getPlayerHand();
     getDealerHand();
 
@@ -303,10 +300,10 @@ const endTheHand = () => {
     
     setTimeout(() => {
         const result = httpGet('http://localhost:8080/game/1/endhand');
-    alert(`Player ${result}! Dealer's hand: ${dealer.handValue}`);
-    },500);
+        alert(`Player ${result}! Dealer's hand: ${dealer.handValue}`);
+        addPlayerInfo();
+    },500)
     
-
     end = false;
 }
 
@@ -396,7 +393,6 @@ const playerJoin = () => {
                 }))
                 .then(() => {
                     playerId = httpGet(`http://localhost:8080/player/findbyuser/${userId}`);
-                    console.log(playerId);
                 })
                 .catch(err => console.log(err));
 }
