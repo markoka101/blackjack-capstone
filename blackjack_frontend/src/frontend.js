@@ -293,7 +293,6 @@ const endTheHand = () => {
     end = true;
     betBtn.disabled = false;
 
-    getPlayerHand();
     getDealerHand();
 
     dealerCardNum = 0;
@@ -301,8 +300,12 @@ const endTheHand = () => {
     setTimeout(() => {
         const result = httpGet('http://localhost:8080/game/1/endhand');
         alert(`Player ${result}! Dealer's hand: ${dealer.handValue}`);
+
+        getPlayerHand();
+        getDealerHand();
         addPlayerInfo();
     },500)
+
     
     end = false;
 }
@@ -432,11 +435,11 @@ function getCook(cName) {
 
     for (const element of ca) {
         let c = element;
-        while (c.charAt(0) == ' ') {
+        while (c.startsWith(' ')) {
             c = c.substring(1);
         }
 
-        if (c.indexOf(name) == 0) {
+        if (c.startsWith(name)) {
             return c.substring(name.length, c.length);
         }
     }
