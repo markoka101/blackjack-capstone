@@ -20,9 +20,6 @@ const betBtn = document.getElementById('bet');
 const hitBtn = document.getElementById('hit');
 const stayBtn = document.getElementById('stay');
 
-//test buttton
-const testBtn = document.getElementById('test');
-
 //end of game
 let end = false;
 
@@ -38,16 +35,6 @@ const displayDealerHand = document.getElementById('dealer-hand');
 const displayPlayer = document.getElementsByClassName('player');
 const displayPlayerHand = document.getElementById('player-hand');
 const displayPlayerInfo = document.getElementById('player-info');
-
-  
-//test
-/*
-            BUTTON USED FOR TESTING NEW FIXES OR FEATURES FOR NOW
-*/
-testBtn.addEventListener('click', (e) => {
-    e.preventDefault();
-    console.log(httpGet('http://localhost:8080/user/findbyname/mark'));
-});
 
 
 /*
@@ -114,7 +101,6 @@ registerForm.addEventListener('submit', (e) => {
 
     }))
     .then((res) => {
-        //set userId variable
         if (res.status === 201) {
             registerForm.remove();
         }
@@ -176,6 +162,7 @@ playGameBut.addEventListener('click', e => {
             playerJoin();
         }
         playGameBut.remove();
+
         getPlayerHand();
         getDealerHand();
         betBtn.disabled = false;
