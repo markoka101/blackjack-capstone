@@ -339,17 +339,7 @@ const getDealerHand = () => {
         } else {
 
             displayDealerHand.innerHTML+= `<img src=${dealer.dealerHand[i].imageUrl} />`;
-            // if(i > dealerCardNum - 1)  {
-            //     setTimeout(() => {
-            //     displayDealerHand.innerHTML+= `<img src=${dealer.dealerHand[i].imageUrl} />`;
-            //     }, 500);
 
-            //     console.log('if    ' + `i  value ${i}  num value ${dealerCardNum}`);
-            //     dealerCardNum = dealerCardNum + 1;
-            // } else {
-            //     console.log('else   '+ `i  value ${i}  num value ${dealerCardNum}`);
-            //     displayDealerHand.innerHTML+= `<img src=${dealer.dealerHand[i].imageUrl} />`;
-            // }
         }
     }
 }
