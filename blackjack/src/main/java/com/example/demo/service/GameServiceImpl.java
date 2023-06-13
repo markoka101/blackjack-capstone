@@ -175,7 +175,9 @@ public class GameServiceImpl implements GameService{
             game.getDealer().stay(game.getDealer().getHandValue());
         }
 
-        for (CardDeck card : game.getDealer().getDealerHand()) {
+        for (int i = 0; i < game.getDealer().getDealerHand().size(); i++) {
+            CardDeck card = game.getDealer().getDealerHand().get(i);
+
             if(card.getCardName().equals("ace") && card.getCardValue() == 11) {
                 if (game.getDealer().getHandValue() > 21 && game.getDealer().getHandValue() < 31) {
                     card.setCardValue(1);
