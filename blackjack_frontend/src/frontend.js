@@ -146,9 +146,7 @@ playGameBut.addEventListener('click', e => {
         
         playGameBut.remove();  
         betBtn.disabled = false;
-        setTimeout(() => {
-            playerJoin();
-        }, 100);
+        playerJoin();
         
     } else {
         //game currently in progress
@@ -157,15 +155,22 @@ playGameBut.addEventListener('click', e => {
             console.log('user is in game');
             const userId = httpGet(`http://localhost:8080/user/findbyname/${currUser}`);
             playerId = httpGet(`http://localhost:8080/player/findbyuser/${userId}`);
+            setPlayer();
         } else {
             console.log('user will be added');
             playerJoin();
         }
         playGameBut.remove();
 
+        if (player.bet != 0) {
+            hitBtn.disabled = false;
+            stayBtn.disabled = false;
+        } else {
+            betBtn.disabled = false;
+        }
+
         getPlayerHand();
         getDealerHand();
-        betBtn.disabled = false;
         addPlayerInfo();
     }
 })
@@ -291,7 +296,7 @@ const endTheHand = () => {
         getPlayerHand();
         getDealerHand();
         addPlayerInfo();
-    },500)
+    },750)
 
     
     end = false;
@@ -337,9 +342,7 @@ const getDealerHand = () => {
         if (i === 0 && !end) {
             displayDealerHand.innerHTML+= `<img src="cardback.png" />`;
         } else {
-
             displayDealerHand.innerHTML+= `<img src=${dealer.dealerHand[i].imageUrl} />`;
-
         }
     }
 }
@@ -373,10 +376,15 @@ const playerJoin = () => {
                 }))
                 .then(() => {
                     playerId = httpGet(`http://localhost:8080/player/findbyuser/${userId}`);
+                    setPlayer();
                 })
                 .catch(err => console.log(err));
 }
 
+//set the player
+const setPlayer = () => {
+    player = JSON.parse(httpGet(`http://localhost:8080/player/getplayer/${playerId}`));
+}
 
 //put bets into the game pot
 const addToPot = () => {
