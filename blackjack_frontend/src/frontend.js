@@ -141,12 +141,17 @@ playGameBut.addEventListener('click', e => {
             },
             body: JSON.stringify(potObj)
         }))
-        .then()
+        .then(() =>  {
+            playGameBut.remove();  
+            betBtn.disabled = false;
+            setTimeout(() => {
+            playerJoin();
+            addPlayerInfo();
+        }, 100);
+        })
         .catch(err => console.log(err));   
         
-        playGameBut.remove();  
-        betBtn.disabled = false;
-        playerJoin();
+        
         
     } else {
         //game currently in progress
