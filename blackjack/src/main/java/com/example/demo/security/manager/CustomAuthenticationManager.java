@@ -3,6 +3,7 @@ package com.example.demo.security.manager;
 import com.example.demo.entity.User;
 import com.example.demo.service.UserServiceImp;
 import lombok.AllArgsConstructor;
+import org.springframework.data.relational.core.sql.IsNull;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -21,6 +22,10 @@ public class CustomAuthenticationManager implements AuthenticationManager {
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
         User user = userServiceImpl.getUser(authentication.getName(), "username");
+
+        if (user == null) {
+            throw new BadCredentialsException("Incorrect username");
+        }
         if (!bCryptPasswordEncoder.matches(authentication.getCredentials().toString(), user.getPassword())) {
             throw new BadCredentialsException("Incorrect password");
         }
