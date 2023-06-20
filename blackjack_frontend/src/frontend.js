@@ -60,20 +60,20 @@ loginForm.addEventListener('submit', (e) => {
         body: JSON.stringify(userObj)
     }))
     .then(res => {
-        res.json()
-        .then(data => {
-            if (res.status === 200) {
+
+        if (res.status === 200) {
+            res.json()
+            .then(data => {
                 signedIn = true;
                 currUser = data.username;
                 setCook('token', data.accessToken);
     
                 loginForm.remove();
                 registerForm.remove();
-            } else {
-                alert('username or password is incorrect');
-            }
-        })
-        .catch(err => console.log(err))
+            })
+        } else {
+            alert('username or password is incorrect');
+        }
     })
     .catch(err => console.log(err));
 });
