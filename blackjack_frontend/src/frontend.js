@@ -252,6 +252,9 @@ hitBtn.addEventListener('click', e => {
     }))
     .then(() => {
         getPlayerHand();
+
+        //when player bust the stay value is autimatically set to true in back end
+        //so if they hit and their stay value is true that, then the player bust
         if (player.stay) {
             hitBtn.disabled = true;
             stayBtn.disabled = true;
