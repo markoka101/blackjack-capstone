@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.security.RolesAllowed;
+import javax.transaction.Transactional;
 
 @AllArgsConstructor
 @RestController
@@ -32,6 +33,15 @@ public class PlayerController {
             return playerService.findByUserId(userid).getId();
         }
         return 0L;
+    }
+
+    //allows player to leave game
+    @DeleteMapping("/{playerid}/leave")
+    @RolesAllowed({"ROLE_USER", "ROLE_ADMIN"})
+    @Transactional
+    public ResponseEntity<?> leaveGame(@PathVariable Long playerid) {
+        playerService.removePlayer(playerid);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @GetMapping("/getplayer/{playerid}")

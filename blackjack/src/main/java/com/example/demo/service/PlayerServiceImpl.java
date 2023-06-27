@@ -9,6 +9,7 @@ import com.example.demo.repository.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityManager;
 import java.util.Optional;
 
 @Service
@@ -17,6 +18,9 @@ public class PlayerServiceImpl implements PlayerService{
 
     private PlayerRepository playerRepository;
     private UserRepository userRepository;
+
+    //entity manager
+    private EntityManager entityManager;
 
     @Override
     public Player findById(Long id) {
@@ -34,6 +38,11 @@ public class PlayerServiceImpl implements PlayerService{
     @Override
     public Player createPlayer(Player player) {
         return playerRepository.save(player);
+    }
+
+    @Override
+    public void removePlayer(Long id) {
+        entityManager.remove(findById(id));
     }
 
     //Gameplay logic
@@ -56,9 +65,6 @@ public class PlayerServiceImpl implements PlayerService{
         return player.getHand().remove(0);
     }
 
-    /*
-    Add exception to hande not enough funds
-     */
     //taking credits from user
     @Override
     public Player bet(Long playerId, Integer betCredit) {

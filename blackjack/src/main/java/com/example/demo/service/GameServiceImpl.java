@@ -14,6 +14,7 @@ import com.example.demo.repository.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityManager;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -30,6 +31,9 @@ public class GameServiceImpl implements GameService{
 
     //player service
     private PlayerService playerService;
+
+    //entity manager
+    private EntityManager entityManager;
 
     //find games
     @Override
