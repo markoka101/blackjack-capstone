@@ -12,6 +12,7 @@ public interface GameService {
     //game information
     Game getGame(Long id);
     Game createGame(Game game);
+    void deleteGame(Long id);
 
     //players
     Game addPlayer(Long gameId, Long userId);

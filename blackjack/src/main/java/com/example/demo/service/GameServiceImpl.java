@@ -57,6 +57,11 @@ public class GameServiceImpl implements GameService{
         return gameRepository.save(game);
     }
 
+    @Override
+    public void deleteGame(Long id) {
+        entityManager.remove(getGame(id));
+    }
+
     //create and add player
     @Override
     public Game addPlayer(Long gameId, Long userId) {
