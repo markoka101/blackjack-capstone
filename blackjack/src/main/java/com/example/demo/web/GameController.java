@@ -44,6 +44,14 @@ public class GameController {
         return new ResponseEntity<>(gameService.createGame(game), HttpStatus.CREATED);
     }
 
+    //delete game
+    @DeleteMapping("/delete/{gameid}")
+    @RolesAllowed("ROLE_ADMIN")
+    public ResponseEntity<?> deleteGame(@PathVariable Long gameid) {
+        gameService.deleteGame(gameid);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
     //add player to game
     @PostMapping("/{gameid}/add/{userid}")
     @RolesAllowed({"ROLE_USER", "ROLE_ADMIN"})
@@ -65,7 +73,7 @@ public class GameController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    //emd the hand
+    //end the hand
     @GetMapping("/{gameid}/endhand")
     @RolesAllowed({"ROLE_USER", "ROLE_ADMIN"})
     public String endHand(@PathVariable Long gameid) {
