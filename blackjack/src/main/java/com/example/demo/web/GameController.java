@@ -46,7 +46,8 @@ public class GameController {
 
     //delete game
     @DeleteMapping("/delete/{gameid}")
-    @RolesAllowed("ROLE_ADMIN")
+    @RolesAllowed({"ROLE_ADMIN", "ROLE_USER"})
+    @Transactional
     public ResponseEntity<?> deleteGame(@PathVariable Long gameid) {
         gameService.deleteGame(gameid);
         return new ResponseEntity<>(HttpStatus.OK);
