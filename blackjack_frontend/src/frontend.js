@@ -12,7 +12,10 @@ let playerId;
 let signedIn = false;
 
 //play game button
-const playGameBut = document.getElementById('play-game');
+let playGameBut = document.getElementById('play-game');
+
+//leave game button
+const leaveBtn = document.getElementById('leave');
 
 //game buttons 
 const dealBtn = document.getElementById('deal');
@@ -127,7 +130,6 @@ playGameBut.addEventListener('click', e => {
     }
     //create game if not one in progress
     else if (!gameInProg()) {
-        console.log('no game in prog');
         const potObj = {
             pot: 0
         }
@@ -142,7 +144,8 @@ playGameBut.addEventListener('click', e => {
             body: JSON.stringify(potObj)
         }))
         .then(() =>  {
-            playGameBut.remove();  
+            playGameBut = playGameBut.parentElement.removeChild(playGameBut);
+            leaveBtn.disabled = false;
             betBtn.disabled = false;
             setTimeout(() => {
             playerJoin();
@@ -154,18 +157,18 @@ playGameBut.addEventListener('click', e => {
         
         
     } else {
-        //game currently in progress
-        console.log('game in prog');
+        //this is for joining a game that is already in progress
         if (playerInGame()) {
-            console.log('user is in game');
             const userId = httpGet(`http://localhost:8080/user/findbyname/${currUser}`);
             playerId = httpGet(`http://localhost:8080/player/findbyuser/${userId}`);
             setPlayer();
         } else {
-            console.log('user will be added');
             playerJoin();
+            addPlayerInfo();
         }
-        playGameBut.remove();
+
+        playGameBut = playGameBut.parentElement.removeChild(playGameBut);
+        leaveBtn.disabled = false;
 
         if (player.bet != 0) {
             hitBtn.disabled = false;
@@ -180,6 +183,24 @@ playGameBut.addEventListener('click', e => {
     }
 })
 
+//leave game
+leaveBtn.addEventListener('click', e => {
+    e.preventDefault();
+
+    fetch(`http://localhost:8080/player/${playerId}/leave`, ({
+        method:"DELETE",
+        mode:"cors",
+        headers: {
+            "Authorization": `Bearer ${getCook('token')}`
+        }
+    }))
+    .then(() => {
+
+
+        document.getElementById('games').appendChild(playGameBut);
+    })
+
+})
 
 /*
 gameplay buttons
@@ -384,7 +405,6 @@ const playerJoin = () => {
                 }))
                 .then(() => {
                     playerId = httpGet(`http://localhost:8080/player/findbyuser/${userId}`);
-                    setPlayer();
                 })
                 .catch(err => console.log(err));
 }
