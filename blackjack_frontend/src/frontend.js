@@ -150,7 +150,7 @@ playGameBut.addEventListener('click', e => {
             setTimeout(() => {
             playerJoin();
             addPlayerInfo();
-        }, 100);
+        }, 200);
         })
         .catch(err => console.log(err));   
         
@@ -195,7 +195,18 @@ leaveBtn.addEventListener('click', e => {
         }
     }))
     .then(() => {
+        //disabling game buttons
+        hitBtn.disabled = true;
+        stayBtn.disabled = true;
+        dealBtn.disabled = true;
+        betBtn.disabled = true;
+        leaveBtn.disabled = true;
 
+        //remove the visuals from the screen
+        const dealerVisual = document.querySelectorAll('.dealer');
+        const playerVisual = document.querySelectorAll('.player');
+        dealerVisual.forEach(elem => elem.remove);
+        playerVisual.forEach(elem => elem.remove);
 
         document.getElementById('games').appendChild(playGameBut);
     })
