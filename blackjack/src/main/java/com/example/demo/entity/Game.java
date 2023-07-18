@@ -2,6 +2,7 @@ package com.example.demo.entity;
 
 import com.example.demo.pojo.CardDeck;
 import com.example.demo.pojo.Dealer;
+import com.example.demo.pojo.GameInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
@@ -40,6 +41,8 @@ public class Game {
     @ElementCollection
     private List<CardDeck> deck;
 
-
+    //object that will hold the game information
+    @Column(name = "information")
+    private GameInfo gameInfo;
 
 }
