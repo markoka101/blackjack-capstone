@@ -32,4 +32,9 @@ public interface GameService {
     boolean allStay(Long gameId);
     String endHand(Long gameId);
     String winner(Game game, Integer pot);
+
+    /*
+    TEST FUNCTIONS FOR DISPLAYING INFORMATION FOR FRONT_END
+     */
+
 }

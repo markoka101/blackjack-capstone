@@ -41,8 +41,8 @@ public class Game {
     @ElementCollection
     private List<CardDeck> deck;
 
-    //object that will hold the game information
-    @Column(name = "information")
+//    //object that will hold the game information
+    @Column(name = "info")
     private GameInfo gameInfo;
 
 }

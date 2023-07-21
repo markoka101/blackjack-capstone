@@ -3,6 +3,7 @@ package com.example.demo.entity;
 import com.example.demo.pojo.CardDeck;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
+import lombok.experimental.Tolerate;
 
 import javax.persistence.*;
 import java.util.List;
@@ -30,6 +31,10 @@ public class Player {
     @NonNull
     @JoinColumn(name = "game_id", referencedColumnName = "id")
     private Game game;
+
+    @NonNull
+    @Column(name = "player_name")
+    private String pName;
 
     @NonNull
     @Column(name = "bet")

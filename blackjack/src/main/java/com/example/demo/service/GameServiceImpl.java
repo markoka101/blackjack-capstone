@@ -7,6 +7,7 @@ import com.example.demo.entity.User;
 import com.example.demo.pojo.CardDeck;
 import com.example.demo.pojo.Dealer;
 
+import com.example.demo.pojo.GameInfo;
 import com.example.demo.repository.GameRepository;
 import com.example.demo.repository.PlayerRepository;
 import com.example.demo.repository.UserRepository;
@@ -35,6 +36,8 @@ public class GameServiceImpl implements GameService{
     //entity manager
     private EntityManager entityManager;
 
+
+
     //find games
     @Override
     public Game getGame(Long id) {
@@ -51,9 +54,13 @@ public class GameServiceImpl implements GameService{
 
         //creating dealer
         Dealer dealer = new Dealer();
-
         game.setDealer(dealer);
         game.setDeck(deck);
+
+        //creating object to hold game information
+        GameInfo gameInfo = new GameInfo();
+        game.setGameInfo(gameInfo);
+
         return gameRepository.save(game);
     }
 
@@ -70,9 +77,15 @@ public class GameServiceImpl implements GameService{
 
         //unwrap the user so can pass into player
         User unwrappedUser = UserServiceImp.unwrapUser(user, userId);
-        Player player = new Player(unwrappedUser, game, 0, 0);
+        Player player = new Player(unwrappedUser, game, unwrappedUser.getUsername(),0, 0);
 
+        //add player to player set for game
         game.getPlayers().add(player);
+
+        //add player to gameInfo
+        game.getGameInfo().addPlayer(player.getId(), player.getPName());
+        game.getGameInfo().increaseAmt();
+
         return gameRepository.save(game);
     }
 

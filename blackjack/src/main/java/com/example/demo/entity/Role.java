@@ -20,16 +20,9 @@ public class Role {
     @Column(nullable = false, unique = true)
     private String name;
 
-    //deal with lombok constructors being weird later
-//    public Role() {}
-//
     public Role(Long id) {
         this.id = id;
     }
-//
-//    public Role(String name) {
-//        this.name = name;
-//    }
 
     @Override
     public String toString() {
