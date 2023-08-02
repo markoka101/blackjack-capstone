@@ -71,7 +71,7 @@ public class GameServiceImpl implements GameService{
 
     //create and add player
     @Override
-    public Game addPlayer(Long gameId, Long userId) {
+    public void addPlayer(Long gameId, Long userId) {
         Game game = getGame(gameId);
         Optional<User> user = userRepository.findById(userId);
 
@@ -82,11 +82,22 @@ public class GameServiceImpl implements GameService{
         //add player to player set for game
         game.getPlayers().add(player);
 
-        //add player to gameInfo
-        game.getGameInfo().addPlayer(player.getId(), player.getPName());
-        game.getGameInfo().increaseAmt();
+        gameRepository.save(game);
+    }
 
-        return gameRepository.save(game);
+    //Add player to gameInfo object
+    @Override
+    public void setPlayerInfo(Long gameId, Long playerId) {
+        Game game = getGame(gameId);
+        Optional<Player> player = playerRepository.findById(playerId);
+
+        //unwrap player
+        Player unwrappedPlayer = PlayerServiceImpl.unwrapPlayer(player,playerId);
+
+        //enter the player's id and name into the game information object then increase amount
+        game.getGameInfo().addPlayer(unwrappedPlayer.getId(), unwrappedPlayer.getPName());
+        game.getGameInfo().increaseAmt();
+        gameRepository.save(game);
     }
 
     //Set of players in game
@@ -137,6 +148,8 @@ public class GameServiceImpl implements GameService{
                     }
                     player.setHandValue(player.getHandValue() + card.getCardValue());
                     playerRepository.save(player);
+
+                    game.getGameInfo().addPlayerHand(player.getPName(),card);
                 }
             }
             //deal to dealer

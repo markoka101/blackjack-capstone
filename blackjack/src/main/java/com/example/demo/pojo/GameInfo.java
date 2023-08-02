@@ -1,12 +1,11 @@
 package com.example.demo.pojo;
 
-import com.example.demo.entity.Player;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import javax.persistence.*;
 import java.util.*;
-import java.util.stream.Collectors;
+
 
 
 /*
@@ -30,6 +29,7 @@ public class GameInfo {
     private int dValue = 0;
 
     //hold playerInfo objects
+    @Lob
     private ArrayList<PlayerInfo> playersInfo = new ArrayList<>();
 
     public void increaseAmt() {

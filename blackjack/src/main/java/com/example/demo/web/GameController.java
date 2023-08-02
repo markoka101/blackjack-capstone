@@ -56,8 +56,17 @@ public class GameController {
     //add player to game
     @PostMapping("/{gameid}/add/{userid}")
     @RolesAllowed({"ROLE_USER", "ROLE_ADMIN"})
-    public ResponseEntity<Game> addPlayer(@PathVariable Long gameid, @PathVariable Long userid) {
-        return new ResponseEntity<>(gameService.addPlayer(gameid, userid), HttpStatus.OK);
+    public ResponseEntity<?> addPlayer(@PathVariable Long gameid, @PathVariable Long userid) {
+        gameService.addPlayer(gameid, userid);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    //add player to game information object
+    @PostMapping("/{gameid}/playervisual/{playerid}")
+    @RolesAllowed({"ROLE_USER","ROLE_ADMIN"})
+    public ResponseEntity<?> addPlayerVisual(@PathVariable Long gameid, @PathVariable Long playerid) {
+        gameService.setPlayerInfo(gameid, playerid);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     //add players bets to pot

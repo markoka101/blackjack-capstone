@@ -15,8 +15,9 @@ public interface GameService {
     void deleteGame(Long id);
 
     //players
-    Game addPlayer(Long gameId, Long userId);
+    void addPlayer(Long gameId, Long userId);
     Set<Player> getPlayers(Long id);
+    void setPlayerInfo(Long gameId, Long playerId);
 
     //credit logic
     Integer placedBets(Long gameId);
