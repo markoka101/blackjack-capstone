@@ -148,8 +148,6 @@ public class GameServiceImpl implements GameService{
                     }
                     player.setHandValue(player.getHandValue() + card.getCardValue());
                     playerRepository.save(player);
-
-                    game.getGameInfo().addPlayerHand(player.getPName(),card);
                 }
             }
             //deal to dealer

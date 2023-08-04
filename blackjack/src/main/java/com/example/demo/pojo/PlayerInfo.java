@@ -9,12 +9,13 @@ public class PlayerInfo implements Serializable {
     private Long id;
     private String name;
 
-    private List<CardDeck> playerHand = new ArrayList<>();
+    private List<CardDeck> playerHand;
     private int handValue = 0;
 
     public PlayerInfo(Long id, String name) {
         this.id = id;
         this.name = name;
+        this.playerHand = new ArrayList<>();
     }
 
     //getters
@@ -26,9 +27,8 @@ public class PlayerInfo implements Serializable {
         return this.name;
     }
 
-    @JsonIgnore
     public List<CardDeck> getPlayerHand() {
-        return this.getPlayerHand();
+        return this.playerHand;
     }
 
     public int getHandValue() {

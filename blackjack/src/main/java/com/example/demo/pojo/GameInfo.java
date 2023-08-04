@@ -45,11 +45,14 @@ public class GameInfo {
         playersInfo.add(playerInfo);
     }
 
-    public void addPlayerHand(String name, CardDeck card) {
+    public void addToPlayerHand(String name, CardDeck card) {
+
         for (PlayerInfo player : playersInfo) {
             if (player.getName().equals(name)) {
                 player.getPlayerHand().add(card);
+                player.setHandValue(player.getHandValue() + card.getCardValue());
             }
         }
+
     }
 }
