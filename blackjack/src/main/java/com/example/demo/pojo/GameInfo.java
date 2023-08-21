@@ -1,9 +1,13 @@
 package com.example.demo.pojo;
 
+import com.example.demo.entity.Game;
+import com.example.demo.repository.GameRepository;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
 import javax.persistence.*;
+import javax.transaction.Transactional;
 import java.util.*;
 
 
@@ -32,25 +36,29 @@ public class GameInfo {
     @Lob
     private ArrayList<PlayerInfo> playersInfo = new ArrayList<>();
 
+    //increase amount of players in game
     public void increaseAmt() {
         this.playerAmt = playerAmt + 1;
     }
 
+    //decrease amount of players
     public void decreaseAmt() {
         this.playerAmt = playerAmt - 1;
     }
 
+    //add player to visual object
     public void addPlayer(Long id, String name) {
         PlayerInfo playerInfo = new PlayerInfo(id, name);
         playersInfo.add(playerInfo);
     }
 
-    public void addToPlayerHand(String name, CardDeck card) {
+    //add the hand value to visual player object
+    public void addToPlayerHand(String name, List<CardDeck> hand, int hValue) {
 
         for (PlayerInfo player : playersInfo) {
             if (player.getName().equals(name)) {
-                player.getPlayerHand().add(card);
-                player.setHandValue(player.getHandValue() + card.getCardValue());
+                player.getPHand().addAll(hand);
+                player.setHandValue(hValue);
             }
         }
 

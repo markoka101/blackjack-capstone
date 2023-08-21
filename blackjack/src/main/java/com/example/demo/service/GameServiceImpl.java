@@ -97,6 +97,7 @@ public class GameServiceImpl implements GameService{
         //enter the player's id and name into the game information object then increase amount
         game.getGameInfo().addPlayer(unwrappedPlayer.getId(), unwrappedPlayer.getPName());
         game.getGameInfo().increaseAmt();
+
         gameRepository.save(game);
     }
 
@@ -140,6 +141,7 @@ public class GameServiceImpl implements GameService{
                 //only deal to players who have placed a bet
                 if (player.getBet() != 0) {
                     CardDeck card = game.getDeck().remove(0);
+
                     player.getHand().add(card);
 
                     //ace logic
@@ -147,21 +149,31 @@ public class GameServiceImpl implements GameService{
                         card.setCardValue(1);
                     }
                     player.setHandValue(player.getHandValue() + card.getCardValue());
+
                     playerRepository.save(player);
                 }
             }
+
             //deal to dealer
             CardDeck card = game.getDeck().remove(0);
             game.getDealer().getDealerHand().add(card);
+            game.getGameInfo().getDHand().add(card);
 
             if (card.getCardName().equals("ace") && game.getDealer().getHandValue() > 10) {
                 card.setCardValue(1);
             }
             game.getDealer().setHandValue(game.getDealer().getHandValue() + card.getCardValue());
+            game.getGameInfo().setDValue(game.getDealer().getHandValue());
             //using hard 17 rule
             game.getDealer().stay(game.getDealer().getHandValue());
 
         }
+
+        //set the visual players objects hands
+        for (Player player : playerSet) {
+            game.getGameInfo().addToPlayerHand(player.getPName(), player.getHand(), player.getHandValue());
+        }
+
         gameRepository.save(game);
     }
 

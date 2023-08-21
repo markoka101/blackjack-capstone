@@ -2,20 +2,27 @@ package com.example.demo.pojo;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import org.springframework.transaction.annotation.Transactional;
+
+import javax.persistence.ElementCollection;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+
+import com.example.demo.pojo.CardDeck;
+
 public class PlayerInfo implements Serializable {
     private Long id;
     private String name;
 
-    private List<CardDeck> playerHand;
+    @ElementCollection
+    private static List<CardDeck> pHand = new ArrayList<CardDeck>();
     private int handValue = 0;
 
     public PlayerInfo(Long id, String name) {
         this.id = id;
         this.name = name;
-        this.playerHand = new ArrayList<>();
     }
 
     //getters
@@ -27,8 +34,9 @@ public class PlayerInfo implements Serializable {
         return this.name;
     }
 
-    public List<CardDeck> getPlayerHand() {
-        return this.playerHand;
+    @ElementCollection
+    public List<CardDeck> getPHand() {
+        return pHand;
     }
 
     public int getHandValue() {
@@ -44,8 +52,8 @@ public class PlayerInfo implements Serializable {
         this.name = name;
     }
 
-    public void setPlayerHand(List<CardDeck> playerHand) {
-        this.playerHand = playerHand;
+    public void setPHand(List<CardDeck> playerHand) {
+        pHand = playerHand;
     }
 
     public void setHandValue(int handValue) {
