@@ -73,7 +73,6 @@ public class PlayerServiceImpl implements PlayerService{
 
         Integer userCredits = user.getCredits();
         if(userCredits < betCredit) {
-            //add exception
             return player;
         }
 

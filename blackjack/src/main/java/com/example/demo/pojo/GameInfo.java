@@ -1,13 +1,10 @@
 package com.example.demo.pojo;
 
-import com.example.demo.entity.Game;
-import com.example.demo.repository.GameRepository;
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
 import javax.persistence.*;
-import javax.transaction.Transactional;
 import java.util.*;
 
 
@@ -29,7 +26,7 @@ public class GameInfo {
 
     //hold dealer hand and value
     @ElementCollection
-    private List<CardDeck> dHand;
+    private List<CardDeck> dHand = new ArrayList<>();
     private int dValue = 0;
 
     //hold playerInfo objects
@@ -62,5 +59,27 @@ public class GameInfo {
             }
         }
 
+    }
+
+    //add card when player hits
+    public void hitToPlayer(String name, CardDeck card, int hValue) {
+
+        for (PlayerInfo player : playersInfo) {
+            if (player.getName().equals(name)) {
+                player.getPHand().add(card);
+                player.setHandValue(hValue);
+            }
+        }
+    }
+
+    //clear the hands of the player and dealer visual objects
+    public void clearHands() {
+        for (PlayerInfo player : playersInfo) {
+            player.getPHand().clear();
+            player.setHandValue(0);
+        }
+
+        dHand.clear();
+        dValue = 0;
     }
 }

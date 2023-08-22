@@ -131,6 +131,9 @@ public class GameServiceImpl implements GameService{
         Game game = getGame(gameId);
         Set<Player> playerSet = game.getPlayers();
 
+        //make sure the visuals are clear before dealing
+        game.getGameInfo().clearHands();
+
         CardDeck cardDeck = new CardDeck();
         cardDeck.shuffle(game.getDeck());
 
@@ -203,6 +206,9 @@ public class GameServiceImpl implements GameService{
             unwrappedPlayer.setStay(true);
         }
 
+        //add card to the visual player object
+        game.getGameInfo().hitToPlayer(unwrappedPlayer.getPName(), card, unwrappedPlayer.getHandValue());
+
         playerRepository.save(unwrappedPlayer);
         gameRepository.save(game);
     }
@@ -212,14 +218,23 @@ public class GameServiceImpl implements GameService{
     public void hitDealer(Long gameId) {
         Game game = getGame(gameId);
 
+        //dealer doesn't hit after hand value of 18 or greater
         while (game.getDealer().getHandValue() < 18) {
             CardDeck card = game.getDeck().remove(0);
             game.getDealer().getDealerHand().add(card);
 
-            game.getDealer().setHandValue(game.getDealer().getHandValue() + card.getCardValue());
+            int dealerValue = game.getDealer().getHandValue() + card.getCardValue();
+
+            game.getDealer().setHandValue(dealerValue);
             game.getDealer().stay(game.getDealer().getHandValue());
+
+            //add information to visual object
+            game.getGameInfo().getDHand().add(card);
+            game.getGameInfo().setDValue(dealerValue);
         }
 
+        //this checks if an ace is the reason hand went over 21
+        //if it did it will change ace value to 1 and call function again with adjusted value
         for (int i = 0; i < game.getDealer().getDealerHand().size(); i++) {
             CardDeck card = game.getDealer().getDealerHand().get(i);
 
