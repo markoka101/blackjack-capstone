@@ -13,6 +13,9 @@ Create new games and join existing ones from a list
 ## Author
 - [@markoka101](https://github.com/markoka101)
 
+## Compatible Browsers
+Google Chrome
+
 ## Technology used
 
 Backend: Java, spring-boot, spring security, JWT, and JPA.
