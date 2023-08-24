@@ -1,7 +1,7 @@
 # blackjack-capstone
 # Diet Blackjack
 
-## Summary
+## About
 Diet Blackjack is a web application designed to play a game of Blackjack. The user would
 play a hand against the dealer. After the hand, they will win or lose credits bet depending
 on the result.
