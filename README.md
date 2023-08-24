@@ -16,6 +16,6 @@ Create new games and join existing ones from a list
 
 ## Technology used
 
-Backend: Java, spring-boot, spring security, and JPA.
+Backend: Java, spring-boot, spring security, JWT, and JPA.
 
 Frontend: Node.js, HTML/CSS, Javascript, Express, and Cors
