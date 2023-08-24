@@ -1,4 +1,3 @@
-# blackjack-capstone
 # Diet Blackjack
 
 ## About
