@@ -8,6 +8,7 @@ on the result.
 
 ## Upcoming
 Multiplayer functionality
+
 Create new games, or join existing ones from a list
 
 ## Author
