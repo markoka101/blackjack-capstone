@@ -6,7 +6,7 @@ Diet Blackjack is a web application designed to play a game of Blackjack. The us
 play a hand against the dealer. After the hand, they will win or lose credits bet depending
 on the result.
 
-## Upcoming
+## Upcoming Features
 Multiplayer functionality
 
 Create new games, or join existing ones from a list
@@ -16,6 +16,6 @@ Create new games, or join existing ones from a list
 
 ## Technology used
 
-Backend: Java, spring-boot, Spring security, and JPA.
+Backend: Java, spring-boot, spring security, and JPA.
 
-Frontend: Node.js, HTML, CSS, Javascript, Express, and Cors
+Frontend: Node.js, HTML/CSS, Javascript, Express, and Cors
