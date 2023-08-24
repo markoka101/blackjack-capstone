@@ -9,7 +9,7 @@ on the result.
 ## Upcoming Features
 Multiplayer functionality
 
-Create new games, or join existing ones from a list
+Create new games and join existing ones from a list
 
 ## Author
 - [@markoka101](https://github.com/markoka101)
