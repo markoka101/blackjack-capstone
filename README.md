@@ -1,17 +1,23 @@
-# blackjack-capstone
 # Diet Blackjack
 
-Diet Blackjack is a web application designed to play through a game of Blackjack against. The user would
-play a hand against the dealer. After the hand they will win or lose credits bet depending
+## About
+Diet Blackjack is a web application designed to play a game of Blackjack. The user would
+play a hand against the dealer. After the hand, they will win or lose credits bet depending
 on the result.
 
+## Upcoming Features
+Multiplayer functionality
+
+Create new games and join existing ones from a list
 
 ## Author
-
 - [@markoka101](https://github.com/markoka101)
+
+## Compatible Browsers
+Google Chrome
 
 ## Technology used
 
-Backend: Java, spring-boot, and jpa.
+Backend: Java, spring-boot, spring security, JWT, and JPA.
 
-Client side: Node.js, HTML, CSS, Javascript, Express, cors
+Frontend: Node.js, HTML/CSS, Javascript, Express, and Cors
