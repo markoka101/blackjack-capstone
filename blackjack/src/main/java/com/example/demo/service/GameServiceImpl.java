@@ -345,7 +345,6 @@ public class GameServiceImpl implements GameService{
     }
 
     //remove cards from all players hands
-    @Override
     public void backToDeck(Game game) {
         Set<Player> playerSet = game.getPlayers();
 
@@ -381,9 +380,13 @@ public class GameServiceImpl implements GameService{
         gameRepository.save(game);
     }
 
-    /*
-    Create exception later
-     */
+    //display visual object
+    @Override
+    public GameInfo displayGameInfo(Long id) {
+        Game game = getGame(id);
+        return game.getGameInfo();
+    }
+
     static Game unwrapGame(Optional<Game> entity, Long id) {
         if(entity.isPresent()) {
             return entity.get();

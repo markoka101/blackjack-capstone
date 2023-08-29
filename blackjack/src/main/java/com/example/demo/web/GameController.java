@@ -113,4 +113,11 @@ public class GameController {
         return new ResponseEntity<Boolean>(gameService.allStay(gameid), HttpStatus.OK);
     }
 
+    //show the visual object
+    @GetMapping("/{gameid}/gamevisual")
+    @RolesAllowed({"ROLE_USER", "ROLE_ADMIN"})
+    public ResponseEntity<?> gameVisual(@PathVariable Long gameid) {
+        return new ResponseEntity<>(gameService.displayGameInfo(gameid), HttpStatus.OK);
+    }
+
 }

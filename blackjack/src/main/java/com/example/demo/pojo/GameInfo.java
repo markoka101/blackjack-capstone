@@ -72,6 +72,18 @@ public class GameInfo {
         }
     }
 
+    //get specific player from list
+    public PlayerInfo getPlayerInfo(Long playerId) {
+
+        for (PlayerInfo player : playersInfo) {
+            if (player.getId().equals(playerId))  {
+                return player;
+            }
+        }
+
+        return null;
+    }
+
     //clear the hands of the player and dealer visual objects
     public void clearHands() {
         for (PlayerInfo player : playersInfo) {

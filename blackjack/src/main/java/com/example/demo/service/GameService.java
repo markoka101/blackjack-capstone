@@ -4,6 +4,7 @@ package com.example.demo.service;
 import com.example.demo.entity.Game;
 import com.example.demo.entity.Player;
 import com.example.demo.entity.User;
+import com.example.demo.pojo.GameInfo;
 
 import java.util.List;
 import java.util.Set;
@@ -24,7 +25,6 @@ public interface GameService {
 
     //card logic
     void deal(Long gameId);
-    void backToDeck(Game game);
     void hitDeal(Long gameId, Long playerId);
     void hitDealer(Long gameId);
 
@@ -34,8 +34,6 @@ public interface GameService {
     String endHand(Long gameId);
     String winner(Game game, Integer pot);
 
-    /*
-    TEST FUNCTIONS FOR DISPLAYING INFORMATION FOR FRONT_END
-     */
-
+    //display visual
+    GameInfo displayGameInfo(Long gameId);
 }
