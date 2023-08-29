@@ -112,11 +112,12 @@ registerForm.addEventListener('submit', (e) => {
 });
 
 //show basic game information
-const addPlayerInfo = () => {
+async function addPlayerInfo() {
     const userId = httpGet(`http://localhost:8080/user/findbyname/${currUser}`)
     const userCred = httpGet(`http://localhost:8080/user/${userId}/credits`);
     displayPlayerInfo.innerHTML = '';
-    player = JSON.parse(httpGet(`http://localhost:8080/player/getplayer/${playerId}`));
+
+    player = await JSON.parse(httpGet(`http://localhost:8080/player/getplayer/${playerId}`));
     displayPlayerInfo.innerHTML += `    User credits: ${userCred} <br>`;
     displayPlayerInfo.innerHTML += `    bet: ${player.bet} <br>`;
     displayPlayerInfo.innerHTML += `    hand value: ${player.handValue} <br>`;
@@ -125,6 +126,11 @@ const addPlayerInfo = () => {
 //play game
 playGameBut.addEventListener('click', e => {
     e.preventDefault();
+    playGame();
+
+})
+
+async function playGame() {
     if (!signedIn) {
         alert('you must be signed in to play');
     }
@@ -134,7 +140,7 @@ playGameBut.addEventListener('click', e => {
             pot: 0
         }
 
-        fetch ('http://localhost:8080/game/create', ({
+        await fetch ('http://localhost:8080/game/create', ({
             method: "POST",
             mode: "cors",
             headers: {
@@ -143,25 +149,23 @@ playGameBut.addEventListener('click', e => {
             },
             body: JSON.stringify(potObj)
         }))
-        .then(() =>  {
+        .then(async () =>  {
             playGameBut = playGameBut.parentElement.removeChild(playGameBut);
             leaveBtn.disabled = false;
             betBtn.disabled = false;
-            setTimeout(() => {
-            playerJoin();
-            addPlayerInfo();
-        }, 200);
+            await playerJoin();
+            console.log(playerId + '    playGame()')
+            await addPlayerInfo();
+
         })
         .catch(err => console.log(err));   
-        
-        
         
     } else {
         //this is for joining a game that is already in progress
         if (playerInGame()) {
             const userId = httpGet(`http://localhost:8080/user/findbyname/${currUser}`);
             playerId = httpGet(`http://localhost:8080/player/findbyuser/${userId}`);
-            setPlayer();
+            await setPlayer();
         } else {
             playerJoin();
             addPlayerInfo();
@@ -181,7 +185,7 @@ playGameBut.addEventListener('click', e => {
         getDealerHand();
         addPlayerInfo();
     }
-})
+}
 
 //leave game
 leaveBtn.addEventListener('click', e => {
@@ -311,6 +315,11 @@ stayBtn.addEventListener('click', (e) => {
     .then(() => {
         stayBtn.disabled = true;
         hitBtn.disabled = true;
+
+        while (!(httpGet(`http://localhost:8080/game/1/allstay`))) {
+            console.log('running')
+            setTimeout(100);
+        }
         hitToDealer();
     })
     .catch(err => console.log(err));
@@ -321,7 +330,7 @@ stayBtn.addEventListener('click', (e) => {
 Game functionality
 */
 //end the hand
-const endTheHand = () => {
+async function endTheHand() {
     end = true;
     betBtn.disabled = false;
 
@@ -329,15 +338,13 @@ const endTheHand = () => {
 
     dealerCardNum = 0;
     
-    setTimeout(() => {
-        const result = httpGet('http://localhost:8080/game/1/endhand');
-        alert(`Player ${result}! Dealer's hand: ${dealer.handValue}`);
 
-        getPlayerHand();
-        getDealerHand();
-        addPlayerInfo();
-    },750)
+    const result = httpGet('http://localhost:8080/game/1/endhand');
+    alert(`Player ${result}! Dealer's hand: ${dealer.handValue}`);
 
+    getPlayerHand();
+    getDealerHand();
+    addPlayerInfo();
     
     end = false;
 }
@@ -362,8 +369,8 @@ const hitToDealer = () => {
 }
 
 //display cards in player hand
-const getPlayerHand = () => {
-    player = JSON.parse(httpGet(`http://localhost:8080/player/getplayer/${playerId}`));
+async function getPlayerHand() {
+    player = await JSON.parse(httpGet(`http://localhost:8080/player/getplayer/${playerId}`));
     displayPlayerHand.innerHTML ='';
 
     player.hand.forEach(card => {
@@ -372,9 +379,9 @@ const getPlayerHand = () => {
 }
 
 //display cards in dealer hand
-const getDealerHand = () => {
+async function getDealerHand() {
     let game = httpGet(`http://localhost:8080/game/1`);
-    dealer = (JSON.parse(game)).dealer;
+    dealer = await (JSON.parse(game)).dealer;
     displayDealerHand.innerHTML = '';
 
     for (let i = 0; i < dealer.dealerHand.length; i++) {
@@ -404,9 +411,9 @@ const playerInGame = () => {
 }
 
 //let user join as player in game
-const playerJoin = () => {
+async function playerJoin(){
     const userId = httpGet(`http://localhost:8080/user/findbyname/${currUser}`);
-    fetch(`http://localhost:8080/game/1/add/${userId}`, ({
+    await fetch(`http://localhost:8080/game/1/add/${userId}`, ({
                     method: "POST",
                     mode: "cors",
                     headers: {
@@ -416,13 +423,15 @@ const playerJoin = () => {
                 }))
                 .then(() => {
                     playerId = httpGet(`http://localhost:8080/player/findbyuser/${userId}`);
+                    console.log(playerId + '    playerJoin()');
                 })
                 .catch(err => console.log(err));
 }
 
 //set the player
-const setPlayer = () => {
-    player = JSON.parse(httpGet(`http://localhost:8080/player/getplayer/${playerId}`));
+async function setPlayer() {
+    console.log(playerId + '    setPlayer()');
+    player = await JSON.parse(httpGet(`http://localhost:8080/player/getplayer/${playerId}`));
 }
 
 //put bets into the game pot
