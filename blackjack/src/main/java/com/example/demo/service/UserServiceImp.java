@@ -42,15 +42,6 @@ public class UserServiceImp implements UserService {
     }
 
     @Override
-    public User loginUser(User user) {
-        User savedUser = (getUser(user.getUsername(), "username"));
-        if (bCryptPasswordEncoder.matches(user.getPassword(), savedUser.getPassword())) {
-            return user;
-        }
-        return null;
-    }
-
-    @Override
     public Integer getCredits(User user) {
         return user.getCredits();
     }
