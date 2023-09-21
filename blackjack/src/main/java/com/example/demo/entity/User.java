@@ -58,10 +58,6 @@ public class User implements UserDetails {
         return authorities;
     }
 
-    /*
-    //change location of functions after testing
-
-     */
     public Set<Role> getRoles() {
         return roles;
     }
@@ -73,8 +69,6 @@ public class User implements UserDetails {
     public void addRole(Role role) {
         this.roles.add(role);
     }
-
-    //change location of top functions
 
     @Override
     public boolean isAccountNonExpired() {

@@ -63,7 +63,6 @@ public class UserController {
     @PostMapping("/register")
     public ResponseEntity<?> createUser(@Valid @RequestBody User user) {
         userService.saveUser(user);
-        Long id = user.getId();
 
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
